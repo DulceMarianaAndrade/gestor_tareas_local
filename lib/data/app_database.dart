@@ -42,4 +42,21 @@ class AppDatabase extends _$AppDatabase {
   Future<int> crearTarea(String titulo) {
     return into(tareas).insert(TareasCompanion.insert(titulo: titulo));
   }
+
+  // UPDATE devuelve cuántas filas cambiaron y cero si el id no existe
+  Future<int> actualizarTitulo(int id, String titulo) {
+    return (update(tareas)..where((t) => t.id.equals(id)))
+        .write(TareasCompanion(titulo: Value(titulo)));
+  }
+
+  // UPDATE estado
+  Future<int> cambiarEstado(int id, bool completada) {
+    return (update(tareas)..where((t) => t.id.equals(id)))
+        .write(TareasCompanion(completada: Value(completada)));
+  }
+
+  // DELETE regresa cuantas filas se borraron
+  Future<int> eliminarTarea(int id) {
+    return (delete(tareas)..where((t) => t.id.equals(id))).go();
+  }
 }
